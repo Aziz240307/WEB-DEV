@@ -1,0 +1,75 @@
+<section class="page">
+  <header class="top">
+    <div>
+      <h1 class="title">Online Store</h1>
+      <p class="subtitle">Каталог товаров (Kaspi.kz)</p>
+    </div>
+
+    <!-- необязательно, но красиво -->
+    <div class="hint">Открой товар и поделись ссылкой</div>
+  </header>
+
+  <div class="products">
+    <article class="product-card" *ngFor="let product of products">
+      <div class="image-gallery">
+
+  <div class="main-wrap">
+    <button class="nav-btn left" type="button" (click)="prevImage(product.id)">‹</button>
+
+    <!-- главная картинка берётся из product.images -->
+    <img class="main-image"
+         [src]="getActiveImage(product)"
+         [alt]="product.name"
+         loading="lazy" />
+
+    <button class="nav-btn right" type="button" (click)="nextImage(product.id)">›</button>
+  </div>
+
+  <div class="thumbnails">
+    <img
+      *ngFor="let img of product.images; let i = index"
+      class="thumb"
+      [class.active]="getActiveIndex(product.id) === i"
+      [src]="img"
+      [alt]="product.name + ' ' + (i+1)"
+      (click)="setActiveImage(product.id, i)"
+      loading="lazy"
+    />
+  </div>
+
+</div>
+
+      <div class="content">
+        <h3 class="name" title="{{ product.name }}">{{ product.name }}</h3>
+
+        <p class="desc">
+          {{ product.description }}
+        </p>
+
+        <div class="meta">
+          <div class="price">
+            {{ product.price | number }} ₸
+          </div>
+
+          <div class="rating" [attr.aria-label]="'Rating ' + product.rating">
+            <span class="star">★</span>
+            <span class="value">{{ product.rating }}</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <a class="btn btn-outline"
+             [href]="product.link"
+             target="_blank"
+             rel="noopener">
+            View on Kaspi
+          </a>
+
+          <button class="btn btn-primary" type="button" (click)="share(product)">
+            Share
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
